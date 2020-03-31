@@ -1,8 +1,9 @@
-import React from "react";
+import { h } from "preact";
+import { createContext, useContext, memo, forwardRef } from "preact/compat";
 
-const ThemeContext = React.createContext({});
+const ThemeContext = createContext({});
 export const ThemeProvider = ({ children, theme }) =>
-  React.createElement(ThemeContext.Provider, { value: theme }, children);
+  h(ThemeContext.Provider, { value: theme }, children);
 
 const filterObject = (rest, shouldForwardProp) =>
   Object.keys(rest)
@@ -12,25 +13,21 @@ const filterObject = (rest, shouldForwardProp) =>
       return obj;
     }, {});
 
-export const styled = (
-  defaultAs,
-  { shouldForwardProp, label } = {}
-) => styleCalback => {
-  const component = React.memo(
-    React.forwardRef(({ children, as = defaultAs, ...props }, ref) => {
-      const theme = React.useContext(ThemeContext);
-      return React.createElement(
-        as,
-        {
-          style: styleCalback({ ...props, theme }),
-          ...(shouldForwardProp
-            ? filterObject(props, shouldForwardProp)
-            : props)
-        },
-        children
-      );
-    })
-  );
+export const styled = (defaultAs, options) => styleCalback => {
+  const { shouldForwardProp, label } = options || {};
+  function forwaded(element, ref) {
+    const { children, as = defaultAs, ...props } = element || {};
+    const theme = useContext(ThemeContext);
+    return h(
+      as,
+      {
+        style: styleCalback({ ...props, theme }),
+        ...(shouldForwardProp ? filterObject(props, shouldForwardProp) : props)
+      },
+      children
+    );
+  }
+  const component = memo(forwardRef(forwaded));
   component.displayName = `${label || defaultAs}💅`;
   return component;
 };

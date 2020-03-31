@@ -1,17 +1,14 @@
 {
-  "name": "@stereobooster/unstyled-components",
+  "name": "preact-styled-components",
   "version": "1.0.0",
   "description": "styled-components that Sebastian Markbåge would like",
   "main": "index.js",
   "module": "index.js",
-  "author": "stereobooster",
+  "author": "nico2che",
   "license": "MIT",
   "private": false,
-  "peerDependencies": {
-    "react": "^16.8.6"
-  },
   "devDependencies": {
-    "react": "^16.8.6"
+    "preact": "^10.3.3"
   },
   "files": [
     "index.js"
