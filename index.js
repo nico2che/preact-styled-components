@@ -13,7 +13,7 @@ const filterObject = (rest, shouldForwardProp) =>
       return obj;
     }, {});
 
-export const styled = (defaultAs, options) => styleCalback => {
+export const styled = (defaultAs, options) => (styleCalback) => {
   const { shouldForwardProp, label } = options || {};
   function forwaded(element, ref) {
     const { children, as = defaultAs, ...props } = element || {};
@@ -21,8 +21,9 @@ export const styled = (defaultAs, options) => styleCalback => {
     return h(
       as,
       {
+        ref,
         style: styleCalback({ ...props, theme }),
-        ...(shouldForwardProp ? filterObject(props, shouldForwardProp) : props)
+        ...(shouldForwardProp ? filterObject(props, shouldForwardProp) : props),
       },
       children
     );
