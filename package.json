@@ -1,6 +1,6 @@
 {
   "name": "preact-styled-components",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "styled-components that Sebastian Markbåge would like",
   "main": "index.js",
   "module": "index.js",
