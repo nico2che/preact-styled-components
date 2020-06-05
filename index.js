@@ -16,13 +16,16 @@ const filterObject = (rest, shouldForwardProp) =>
 export const styled = (defaultAs, options) => (styleCalback) => {
   const { shouldForwardProp, label } = options || {};
   function forwaded(element, ref) {
-    const { children, as = defaultAs, ...props } = element || {};
+    const { children, as = defaultAs, style = {}, ...props } = element || {};
     const theme = useContext(ThemeContext);
     return h(
       as,
       {
         ref,
-        style: styleCalback({ ...props, theme }),
+        style: {
+          ...styleCalback({ ...props, theme }),
+          ...(typeof style === "function" ? style({ ...props, theme }) : style),
+        },
         ...(shouldForwardProp ? filterObject(props, shouldForwardProp) : props),
       },
       children
